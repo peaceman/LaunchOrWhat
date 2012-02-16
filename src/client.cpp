@@ -1,5 +1,6 @@
 #include <zmq.hpp>
 #include <stdio.h>
+#include "message.h"
 
 void displayHelp(char *execName);
 
@@ -17,9 +18,12 @@ int main(int argc, char **argv) {
 	zmq::socket_t socket(context, ZMQ_REQ);
 	socket.connect(connectTo);
 
+	message_t toSend = {23, 5, 13};
+
 	while (true) {
-		zmq::message_t request(5);
-		memcpy((void*) request.data(), "Hello", 5);
+		zmq::message_t request(sizeof(message_t));
+		toSend.b++;
+		memcpy((void*) request.data(), &toSend, sizeof(message_t));
 		
 		socket.send(request);
 		socket.recv(&request);
