@@ -1,6 +1,7 @@
 #include <zmq.hpp>
 #include <stdio.h>
-#include "message.h"
+#include <msgpack.hpp>
+#include "Message.h"
 
 void displayHelp(char *execName);
 
@@ -27,10 +28,17 @@ int main(int argc, char **argv) {
 		zmq::message_t request;
 		socket.recv(&request);
 		
-		message_t recd;
-		memcpy(&recd, request.data(), sizeof(message_t));
+		msgpack::unpacked msg;
+		msgpack::unpack(&msg, (const char*)request.data(), request.size());
+		msgpack::object obj = msg.get();
+
+		Message message;
+		obj.convert(&message);
+		std::cout << "message type: " << message.getType() << std::endl;
+
+//		memcpy(&recd, request.data(), sizeof(message_t));
 		
-		printf("received a: %i b: %i c: %i\n", recd.a, recd.b, recd.c);
+//		printf("received a: %i b: %i c: %i\n", recd.a, recd.b, recd.c);
 //		printf("received: %s\n", (char*)request.data());
 		socket.send(request);
 	}
