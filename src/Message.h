@@ -1,3 +1,6 @@
+#ifndef MESSAGE_H
+#define MESSAGE_H
+
 #include <iostream>
 #include <string>
 #include <msgpack.hpp>
@@ -68,3 +71,5 @@ class GetAllChoicesResultMessage : public Message
 		GetAllChoicesResultMessage(std::vector<choice_t> choices);
 		std::vector<choice_t> getChoices();
 };	
+
+#endif
