@@ -37,22 +37,22 @@ const int* Window::getWidth() const {
 
 GraphWindow::GraphWindow(int height, int width, int startx, int starty)
 	: Window(height, width, startx, starty) {
-	choice_t c1;
-	c1.id = 1;
-	c1.name = "omfg";
-	c1.progress = 25;
-
-	choice_t c2;
-	c2.id = 2;
-	c2.name = "lord";
-	c2.progress = 60;
-
-	this->addChoice(c1);
-	this->addChoice(c2);
 }
 
 void GraphWindow::addChoice(choice_t choice) {
 		this->choices.insert(std::pair<unsigned short, choice_t>(choice.id, choice));
+}
+
+void GraphWindow::addChoices(const std::vector<choice_t>* newChoices) {
+	std::vector<choice_t>::const_iterator it;
+	if (newChoices->size() == 0) {
+		return;
+	}
+
+	for (it = newChoices->begin(); it < newChoices->end(); it++) {
+		this->choices.insert(std::pair<unsigned short, choice_t>(it->id, *it));
+		this->addChoice(*it);
+	}
 }
 
 choice_t* GraphWindow::getChoiceById(unsigned short id) {
@@ -86,4 +86,14 @@ void GraphWindow::drawGraphs() {
 	}
 
 	this->refreshWindow();
+}
+
+void GraphWindow::updateProgressOfChoice(unsigned short choiceId, unsigned short progress) {
+	std::map<unsigned short, choice_t>::iterator it = this->choices.find(choiceId);
+	if (it == this->choices.end()) {
+		// unknown choice id
+		return;
+	}
+
+	it->second.progress = progress;
 }

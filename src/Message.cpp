@@ -14,6 +14,11 @@ unsigned short Message::getType()
 	return this->type;
 }
 
+NewChoiceRequestMessage::NewChoiceRequestMessage()
+	: Message(1)
+{
+}
+
 NewChoiceRequestMessage::NewChoiceRequestMessage(std::string choice)
 	: Message(1)
 {
@@ -23,6 +28,11 @@ NewChoiceRequestMessage::NewChoiceRequestMessage(std::string choice)
 std::string NewChoiceRequestMessage::getChoice()
 {
 	return this->choice;
+}
+
+NewChoiceResultMessage::NewChoiceResultMessage()
+	: Message(2)
+{
 }
 
 NewChoiceResultMessage::NewChoiceResultMessage(unsigned short choiceId)
@@ -52,13 +62,18 @@ GetAllChoicesRequestMessage::GetAllChoicesRequestMessage()
 {
 }
 
-GetAllChoicesResultMessage::GetAllChoicesResultMessage(std::vector<choice_t> choice)
+GetAllChoicesResultMessage::GetAllChoicesResultMessage()
+	: Message(5)
+{
+}
+
+GetAllChoicesResultMessage::GetAllChoicesResultMessage(std::vector<choice_t> choices)
 	: Message(5)
 {
 	this->choices = choices;
 }
 
-std::vector<choice_t> GetAllChoicesResultMessage::getChoices()
+const std::vector<choice_t>* GetAllChoicesResultMessage::getChoices()
 {
-	return this->choices;
+	return &this->choices;
 }

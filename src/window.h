@@ -20,14 +20,16 @@ class Window {
 		WINDOW* window;
 };
 
-class GraphWindow : Window {
+class GraphWindow : public Window {
 	protected:
 		std::map<unsigned short, choice_t> choices;
 	public:
 		GraphWindow(int height, int width, int startx = 0, int starty = 0);
 		void drawGraphs();
 		void addChoice(choice_t choice);
+		void addChoices(const std::vector<choice_t>* choices);
 		choice_t* getChoiceById(unsigned short id);
+		void updateProgressOfChoice(unsigned short choiceId, unsigned short progress);
 };
 
 #endif

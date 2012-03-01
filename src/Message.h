@@ -30,6 +30,7 @@ class NewChoiceRequestMessage : public Message
 		std::string choice;	
 	public:
 		MSGPACK_DEFINE(type, choice);
+		NewChoiceRequestMessage();
 		NewChoiceRequestMessage(std::string choice);
 		std::string getChoice();
 
@@ -41,6 +42,7 @@ class NewChoiceResultMessage : public Message
 		unsigned short choiceId;
 	public:
 		MSGPACK_DEFINE(type, choiceId);
+		NewChoiceResultMessage();
 		NewChoiceResultMessage(unsigned short choiceId);
 		unsigned short getChoiceId();
 };
@@ -68,8 +70,9 @@ class GetAllChoicesResultMessage : public Message
 		std::vector<choice_t> choices;
 	public:
 		MSGPACK_DEFINE(type, choices);
+		GetAllChoicesResultMessage();
 		GetAllChoicesResultMessage(std::vector<choice_t> choices);
-		std::vector<choice_t> getChoices();
+		const std::vector<choice_t>* getChoices();
 };	
 
 #endif
